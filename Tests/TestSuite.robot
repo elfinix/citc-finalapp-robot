@@ -3,26 +3,24 @@ Resource        ../Resources/App.resource
 Resource        ../Resources/CustomerAdd.resource
 Resource        ../Resources/CustomerUpdate.resource
 Resource        ../Resources/ConsoleDisplay.resource
+Resource        ../Resources/InputVerification.resource
 Resource        ../Resources/Setup.resource
 
 Suite Setup     Global Suite Setup
-
-
-*** Variables ***
-${USERNAME}     demo
-${PASSWORD}     demo
-
 # // -------------------------------------------------- //#
 
 
 *** Test Cases ***
-TASK-001_2
+TASK-001_2 | Add Five Customers
+    [Documentation]    Add five customers using data from the API (first five users) and verify their details are correct.
     Add Customers Five Times
 
-TASK-003
+TASK-003 | Update Multiple Customer Rows
+    [Documentation]    Update five existing customers (rows 6-10) using data from the API (users 6-10)
     Update Multiple Customer Rows
 
-TASK-004
+TASK-004 | Display Customer Information
+    [Documentation]    Display all available customer information of the current page in the console.
     Go To Customers Page
     Display Available Customers Info
 
@@ -31,10 +29,9 @@ TASK-004
 
 *** Keywords ***
 Add Customers Five Times
-    ${users}    Get Random Users
     Go To Customers Page
-    FOR    ${user}    IN    @{users}[0:5]
-        Input Customer Details    ${user}
+    FOR    ${index}    ${user}    IN ENUMERATE    @{USERS}[0:5]
+        Add New Customer Details    ${user}
         Verify Customer Name    ${user}
         Verify Customer Email    ${user}
         Verify Customer Details    ${user}
@@ -43,15 +40,12 @@ Add Customers Five Times
     END
 
 Update Multiple Customer Rows
-    ${users}    Get Random Users
-    ${index}    Set Variable    0
     Go To Customers Page
-    FOR    ${user}    IN    @{users}[5:10]
+    FOR    ${index}    ${user}    IN ENUMERATE    @{USERS}[5:10]
         Update Customer Details    ${user}    ${index}
         Verify Customer Name    ${user}
         Verify Customer Email    ${user}
         Verify Customer Details    ${user}
         Save Updated Customer
         Verify Customer Is Updated With Correct Details    ${user}    ${index}
-        ${index}    Evaluate    ${index}+1
     END
