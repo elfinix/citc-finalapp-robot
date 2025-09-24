@@ -1,0 +1,3 @@
+{
+    "robot.pythonpath": ["${workspaceFolder}/robotenv/lib/python3.12/site-packages"]
+}
