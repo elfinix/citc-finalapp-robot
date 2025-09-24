@@ -2,7 +2,8 @@
 Library         SeleniumLibrary
 Library         Collections
 Library         ../Library/DataRetrieval.py
-Variables       ../Variables/variables.py
+Variables       ../Variables/login_variables.py
+Variables       ../Variables/page_variables.py
 
 
 *** Keywords ***
