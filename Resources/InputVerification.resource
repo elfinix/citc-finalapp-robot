@@ -43,7 +43,7 @@ Parse Birthday Fields By OS
     IF    '${os}' == 'linux'
         ${input_birthday_month}    Set Variable    """${input_birthday}"""[5:7]
         ${input_birthday_day}    Set Variable    """${input_birthday}"""[8:10]
-    ELSE IF    '${os}' == 'win32'
+    ELSE IF    '${os}' == 'windows'
         ${input_birthday_month}    Set Variable    """${input_birthday}"""[8:10]
         ${input_birthday_day}    Set Variable    """${input_birthday}"""[5:7]
     END
