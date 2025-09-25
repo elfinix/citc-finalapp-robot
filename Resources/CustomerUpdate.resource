@@ -1,8 +1,21 @@
 *** Settings ***
 Resource    App.resource
+Resource    InputVerification.resource
 
 
 *** Keywords ***
+Update Multiple Customer Rows
+    [Arguments]    ${USERS}
+    Go To Customers Page
+    FOR    ${index}    ${user}    IN ENUMERATE    @{USERS}[5:10]
+        Update Customer Details    ${user}    ${index}
+        Verify Customer Name    ${user}
+        Verify Customer Email    ${user}
+        Verify Customer Details    ${user}
+        Save Updated Customer
+        Verify Customer Is Updated With Correct Details    ${user}    ${index}
+    END
+
 Update Customer Details
     [Arguments]    ${user}    ${index}
     Click Element    //table//tbody//tr[${6+${index}}]//td[2]

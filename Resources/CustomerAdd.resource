@@ -1,8 +1,21 @@
 *** Settings ***
 Resource    App.resource
+Resource    InputVerification.resource
 
 
 *** Keywords ***
+Add Customers Five Times
+    [Arguments]    ${USERS}
+    Go To Customers Page
+    FOR    ${index}    ${user}    IN ENUMERATE    @{USERS}[0:5]
+        Add New Customer Details    ${user}
+        Verify Customer Name    ${user}
+        Verify Customer Email    ${user}
+        Verify Customer Details    ${user}
+        Save New Customer
+        Verify Customer Is Added With Correct Details    ${user}
+    END
+
 Add New Customer Details
     [Arguments]    ${user}
     Click Element    ${customers_btn_create}

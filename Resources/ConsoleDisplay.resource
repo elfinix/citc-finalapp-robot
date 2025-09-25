@@ -1,10 +1,12 @@
 *** Settings ***
 Resource    App.resource
+Resource    TableDataRetrieval.resource
+Resource    TableDataOperations.resource
 
 
 *** Keywords ***
 Display Available Customers Info
-    ${user_count}    Get Element Count    ${table_row}
+    ${user_count}    Get Number Of Current Table Rows
     FOR    ${index}    IN RANGE    1    ${user_count}+1
         Display Single Customer Info    ${index}
     END
@@ -29,50 +31,40 @@ Display Single Customer Info
     ...    Segments: ${segment_names}
     Log To Console    \n${user_info}\n
 
-Get Customer Name
-    [Arguments]    ${index}
-    ${tb_name}    Get Text    ((${table_row })[${index}]//td)[2]
-    IF    "\\n" in """${tb_name}"""
-        ${tb_name}    Evaluate    """${tb_name}""".replace("\\n", "")[1:]
+Display User Spending
+    ${user_count}    Get Number Of Current Table Rows
+    Log To Console    \n----- Users with Spending -----
+    FOR    ${index}    IN RANGE    1    ${user_count}+1
+        Get Customer Name    ${index}
+        ${tb_name}    Get Text    ((${table_row })[${index}]//td)[2]
+        IF    "\\n" in """${tb_name}"""
+            ${tb_name}    Evaluate    """${tb_name}""".replace("\\n", "")[1:]
+        END
+        Get Customer Total Spent    ${index}
+        ${tb_total_spent}    Get Text    ((${table_row })[${index}]//td)[5]/span
+        IF    "${tb_total_spent}" != "$0.00"
+            Log To Console    ${tb_name}: ${tb_total_spent}
+        END
     END
-    RETURN    ${tb_name}
 
-Get Customer Last Seen
-    [Arguments]    ${index}
-    ${tb_last_seen}    Get Text    ((${table_row })[${index}]//td)[3]/span
-    RETURN    ${tb_last_seen}
+Display Total Spending
+    [Arguments]    ${total_spent}
+    ${total_spent_display}    Catenate    SEPARATOR=\n
+    ...    =========================================
+    ...    Total Customer Spending: $${total_spent}
+    ...    =========================================
+    Log To Console    \n${total_spent_display}\n
 
-Get Customer Orders
-    [Arguments]    ${index}
-    ${tb_orders}    Get Text    ((${table_row })[${index}]//td)[4]/span
-    RETURN    ${tb_orders}
+Validate Total Spending Threshold
+    [Arguments]    ${total_spent}    ${threshold}=3500
+    ${is_valid}    Run Keyword And Return Status    Should Be True    ${total_spent} >= ${threshold}
+    ${status}    Set Variable If    ${is_valid}    PASS    FAIL
+    ${message}    Set Variable If    ${is_valid}
+    ...    PASS: Total spending ($${total_spent}) meets the minimum threshold ($${threshold}).
+    ...    FAIL: Total spending ($${total_spent}) is below the minimum threshold ($${threshold}).
+    IF    not ${is_valid}    Fail    ${message}
+    RETURN    ${message}
 
-Get Customer Total Spent
-    [Arguments]    ${index}
-    ${tb_total_spent}    Get Text    ((${table_row })[${index}]//td)[5]/span
-    RETURN    ${tb_total_spent}
-
-Get Customer Latest Purchase
-    [Arguments]    ${index}
-    ${latest_purchase_result}    Run Keyword And Ignore Error    Get Text    ((${table_row})[${index}]//td)[6]/span
-    ${tb_latest_purchase}    Set Variable If
-    ...    '${latest_purchase_result[0]}' == 'PASS'
-    ...    ${latest_purchase_result[1]}
-    ...    (None recorded)
-    RETURN    ${tb_latest_purchase}
-
-Get Customer Subscribed
-    [Arguments]    ${index}
-    ${tb_news}    Get Element Attribute    ((${table_row })[${index}]//td)[7]//*[name()='svg']    data-testid
-    ${tb_subscribed}    Set Variable If    '${tb_news}' == 'true'    Subscribed [✅]    Not Subscribed [❌]
-    RETURN    ${tb_subscribed}
-
-Get Customer Segments
-    [Arguments]    ${index}
-    ${segment_count}    Get Element Count    ((${table_row })[${index}]//td)[8]/div/div
-    ${segment_names}    Create List
-    FOR    ${seg_index}    IN RANGE    1    ${segment_count}+1
-        ${seg_name}    Get Text    ((${table_row })[${index}]//td)[8]/div/div[${seg_index}]/span
-        Append To List    ${segment_names}    ${seg_name}
-    END
-    RETURN    ${segment_names}
+Display Total Spending Validation Message
+    [Arguments]    ${message}
+    Log To Console    \n${message}\n

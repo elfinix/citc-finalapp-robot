@@ -21,7 +21,7 @@ class DataRetrieval():
         return users
         
     def get_random_birthday(self):
-        return str(random.randint(1, 9)).zfill(2) + str(random.randint(1, 9)).zfill(2) + str(random.randint(1996, 2006)).zfill(4)
+        return str(random.randint(1, 12)).zfill(2) + str(random.randint(1, 28)).zfill(2) + str(random.randint(1996, 2006)).zfill(4)
 
     def generate_password(self, length=8):
         chars = string.ascii_letters + string.digits + "!@#$%"

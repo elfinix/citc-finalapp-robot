@@ -18,9 +18,8 @@ Verify Customer Email
 Verify Customer Details
     [Arguments]    ${user}
     ${input_birthday}    Get Element Attribute    ${customers_txt_birthday}    value
-    ${input_birthday_month}    Set Variable    """${input_birthday}"""[8:10]
-    ${input_birthday_day}    Set Variable    """${input_birthday}"""[5:7]
-    ${input_birthday_year}    Set Variable    """${input_birthday}"""[0:4]
+    ${input_birthday_month}    ${input_birthday_day}    ${input_birthday_year}    Parse Birthday Fields By OS
+    ...    ${input_birthday}
     ${input_birthday}    Evaluate    f"{${input_birthday_month}}{${input_birthday_day}}{${input_birthday_year}}"
 
     ${input_address}    Get Element Attribute    ${customers_txt_address}    value
@@ -37,3 +36,16 @@ Verify Customer Details
     Should Be Equal As Strings    ${input_zipcode}    ${user["address"]["zipcode"]}
     Should Be Equal As Strings    ${input_password}    ${user["password"]}
     Should Be Equal As Strings    ${input_confirm_password}    ${user["password"]}
+
+Parse Birthday Fields By OS
+    [Arguments]    ${input_birthday}
+    ${os}    Evaluate    __import__('platform').system().lower()
+    IF    '${os}' == 'linux'
+        ${input_birthday_month}    Set Variable    """${input_birthday}"""[5:7]
+        ${input_birthday_day}    Set Variable    """${input_birthday}"""[8:10]
+    ELSE IF    '${os}' == 'win32'
+        ${input_birthday_month}    Set Variable    """${input_birthday}"""[8:10]
+        ${input_birthday_day}    Set Variable    """${input_birthday}"""[5:7]
+    END
+    ${input_birthday_year}    Set Variable    """${input_birthday}"""[0:4]
+    RETURN    ${input_birthday_month}    ${input_birthday_day}    ${input_birthday_year}
