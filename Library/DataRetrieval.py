@@ -16,6 +16,7 @@ class DataRetrieval():
                 i["formatted_name"] = f"{name_parts[0]} {name_parts[1]}"
             i["birthday"] = self.get_random_birthday()
             i["password"]= self.generate_password()
+            i["email"] = self.lower_email(i["email"])
             i["address"]["stateAbbr"]= str(i["address"]["street"][0]) + str(i["address"]["suite"][0])+str(i["address"]["city"][0])
         print(users)
         return users
@@ -26,3 +27,6 @@ class DataRetrieval():
     def generate_password(self, length=8):
         chars = string.ascii_letters + string.digits + "!@#$%"
         return ''.join(random.choice(chars) for _ in range(length))
+
+    def lower_email(self, email):
+        return email.lower()
