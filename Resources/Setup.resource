@@ -21,7 +21,6 @@ Launch Browser
     Open Browser
     ...    ${BASE_URL}
     ...    ${BROWSER}
-    # ...    options=add_argument("--start-maximized")
     ...    options=add_argument("--start-maximized");add_experimental_option("detach",True)
 
     Wait Until Keyword Succeeds    5x    .5s    Wait Until Element Is Visible    ${element_to_wait}
