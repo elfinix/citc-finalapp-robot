@@ -23,6 +23,17 @@ Save New Customer
     Click Button    ${customers_btn_save}
     Wait Until Page Contains    Customer created
 
+Verify Customer Is Added
+    [Arguments]    ${user}
+    Go To Customers Page
+    Refresh Current Page
+    Page Should Contain Element
+    ...    ${table_row}[1]/td[2]/a/div[contains(text(), '${user["formatted_name"].split(" ")[0]}')]
+
+View Newest Customer Details
+    Click Element    ${table_row}[1]/td[2]
+    Wait Until Element Is Visible    ${customers_txt_firstname}
+
 Verify Customer Is Added With Correct Details
     [Arguments]    ${user}
     Go To Customers Page

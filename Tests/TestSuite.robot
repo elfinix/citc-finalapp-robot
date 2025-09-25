@@ -15,7 +15,7 @@ Suite Setup     Global Suite Setup
 *** Test Cases ***
 TASK-001_2 | Add Five Customers
     [Documentation]    Add five customers using data from the API (first five users) and verify their details are correct.
-    Add Customers Five Times
+    Add Customers Five Times With Verification
 
 TASK-003 | Update Multiple Customer Rows
     [Documentation]    Update five existing customers (rows 6-10) using data from the API (users 6-10)

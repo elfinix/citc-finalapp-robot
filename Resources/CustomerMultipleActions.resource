@@ -6,15 +6,17 @@ Resource    CustomerMultipleActions.resource
 
 
 *** Keywords ***
-Add Customers Five Times
+Add Customers Five Times With Verification
     ${users}    Retrieve Test Data
     Go To Customers Page
     FOR    ${index}    ${user}    IN ENUMERATE    @{users}[0:5]
         Add New Customer Details    ${user}
+        Save New Customer
+        Verify Customer Is Added    ${user}
+        View Newest Customer Details
         Verify Customer Name    ${user}
         Verify Customer Email    ${user}
         Verify Customer Details    ${user}
-        Save New Customer
         Verify Customer Is Added With Correct Details    ${user}
     END
 
