@@ -55,16 +55,6 @@ Display Total Spending
     ...    =========================================
     Log To Console    \n${total_spent_display}\n
 
-Validate Total Spending Threshold
-    [Arguments]    ${total_spent}    ${threshold}=3500
-    ${is_valid}    Run Keyword And Return Status    Should Be True    ${total_spent} >= ${threshold}
-    ${status}    Set Variable If    ${is_valid}    PASS    FAIL
-    ${message}    Set Variable If    ${is_valid}
-    ...    PASS: Total spending ($${total_spent}) meets the minimum threshold ($${threshold}).
-    ...    FAIL: Total spending ($${total_spent}) is below the minimum threshold ($${threshold}).
-    IF    not ${is_valid}    Fail    ${message}
-    RETURN    ${message}
-
 Display Total Spending Validation Message
     [Arguments]    ${message}
     Log To Console    \n${message}\n

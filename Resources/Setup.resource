@@ -15,7 +15,6 @@ ${PASSWORD}     demo
 Global Suite Setup
     Launch Browser    ${login_txt_username}
     Login User
-    Prepare Test Data
 
 Launch Browser
     [Arguments]    ${element_to_wait}
@@ -33,7 +32,3 @@ Login User
     Input Text    ${login_txt_password}    ${password}
     Click Button    ${login_btn_submit}
     Wait Until Element Is Visible    ${dashboard_hdr}    error=Dashboard header is not visible
-
-Prepare Test Data
-    ${USERS}    Get Random Users
-    Set Suite Variable    ${USERS}
