@@ -1,8 +1,10 @@
-# Citco FinalApp Robot Framework Test Suite
+# 🤖 Robot Framework Test Suite (Citco IT Training Final Act) 🤖
 
 ## Overview
 
 This repository contains an automated test suite for the Citco FinalApp application, built using the Robot Framework. The test suite leverages SeleniumLibrary for browser automation and Python for backend logic, ensuring robust and scalable test automation.
+
+Submitted by: [Axl Louis Coronel](https://github.com/elfinix/) (acoronel)
 
 ---
 
@@ -12,26 +14,26 @@ This repository contains an automated test suite for the Citco FinalApp applicat
 
 ```
 Library/
-    DataRetrieval.py       # Python library for data retrieval and randomization
+    DataRetrieval.py                           # Python library for data retrieval and randomization
 Resources/
-    App.resource           # Central resource file for shared keywords and imports
-    Setup.resource         # Suite setup and initialization
-    CustomerAdd.resource   # Keywords for adding customers
-    CustomerUpdate.resource# Keywords for updating customer details
-    CustomerMultipleActions.resource # Keywords for bulk customer operations
-    ConsoleDisplay.resource# Keywords for console output
-    InputVerification.resource # Keywords for input validation
-    TableDataRetrieval.resource # Keywords for retrieving table data
-    TableDataOperations.resource # Keywords for table data operations
+    App.resource                               # Central resource file for shared keywords and imports
+    Setup.resource                             # Suite setup and initialization
+    CustomerAdd.resource                       # Keywords for adding customers
+    CustomerUpdate.resource                    # Keywords for updating customer details
+    CustomerMultipleActions.resource           # Keywords for bulk customer operations
+    ConsoleDisplay.resource                    # Keywords for console output
+    InputVerification.resource                 # Keywords for input validation
+    TableDataRetrieval.resource                  Keywords for retrieving table data
+    TableDataOperations.resource               # Keywords for table data operations
 Tests/
-    TestSuite.robot        # Main test suite file
+    TestSuite.robot                            # Main test suite file
 Variables/
-    login_variables.py     # Locators for login page
-    page_variables.py      # Locators for application pages
+    login_variables.py                         # Locators for login page
+    page_variables.py                          # Locators for application pages
 Results/
-    log.html               # Execution log
-    report.html            # Execution report
-    output.xml             # Execution output
+    log.html                                   # Execution log
+    report.html                                # Execution report
+    output.xml                                 # Execution output
 ```
 
 ---
@@ -40,7 +42,6 @@ Results/
 
 -   **Dynamic Data Retrieval**: Fetches user data from an API using `DataRetrieval.py`.
 -   **Modular Design**: Keywords are organized into resource files for reusability.
--   **Platform-Specific Logic**: Handles OS-specific scenarios for date parsing and other operations.
 -   **Validation and Verification**: Includes robust validation steps for user data and application state.
 -   **Scalable Test Cases**: Supports bulk operations like adding and updating multiple customers.
 
